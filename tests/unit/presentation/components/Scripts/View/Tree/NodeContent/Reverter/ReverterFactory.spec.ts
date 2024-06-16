@@ -5,7 +5,7 @@ import { CategoryReverter } from '@/presentation/components/Scripts/View/Tree/No
 import { CategoryCollectionStub } from '@tests/unit/shared/Stubs/CategoryCollectionStub';
 import { CategoryStub } from '@tests/unit/shared/Stubs/CategoryStub';
 import { ScriptStub } from '@tests/unit/shared/Stubs/ScriptStub';
-import { getCategoryNodeId, getScriptNodeId } from '@/presentation/components/Scripts/View/Tree/TreeViewAdapter/CategoryNodeMetadataConverter';
+import { getCategoryNodeId, createNodeIdForExecutable } from '@/presentation/components/Scripts/View/Tree/TreeViewAdapter/CategoryNodeMetadataConverter';
 import { type NodeMetadata, NodeType } from '@/presentation/components/Scripts/View/Tree/NodeContent/NodeMetadata';
 
 describe('ReverterFactory', () => {
@@ -24,7 +24,7 @@ describe('ReverterFactory', () => {
     it('gets ScriptReverter for script node', () => {
       // arrange
       const script = new ScriptStub('test');
-      const node = getNodeContentStub(getScriptNodeId(script), NodeType.Script);
+      const node = getNodeContentStub(createNodeIdForExecutable(script), NodeType.Script);
       const collection = new CategoryCollectionStub()
         .withAction(new CategoryStub(0).withScript(script));
       // act

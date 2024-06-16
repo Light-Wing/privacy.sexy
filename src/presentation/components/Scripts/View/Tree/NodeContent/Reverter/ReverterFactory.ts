@@ -1,4 +1,4 @@
-import type { ICategoryCollection } from '@/domain/ICategoryCollection';
+import type { ICategoryCollection } from '@/domain/Collection/ICategoryCollection';
 import { type NodeMetadata, NodeType } from '../NodeMetadata';
 import { ScriptReverter } from './ScriptReverter';
 import { CategoryReverter } from './CategoryReverter';

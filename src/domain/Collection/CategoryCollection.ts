@@ -1,10 +1,10 @@
 import { getEnumValues, assertInRange } from '@/application/Common/Enum';
-import { RecommendationLevel } from './Executables/Script/RecommendationLevel';
-import { OperatingSystem } from './OperatingSystem';
-import type { IEntity } from '../infrastructure/Entity/IEntity';
-import type { Category } from './Executables/Category/Category';
-import type { Script } from './Executables/Script/Script';
-import type { IScriptingDefinition } from './IScriptingDefinition';
+import { RecommendationLevel } from '../Executables/Script/RecommendationLevel';
+import { OperatingSystem } from '../OperatingSystem';
+import type { ExecutableId, Identifiable } from '../Executables/Identifiable';
+import type { Category } from '../Executables/Category/Category';
+import type { Script } from '../Executables/Script/Script';
+import type { IScriptingDefinition } from '../IScriptingDefinition';
 import type { ICategoryCollection } from './ICategoryCollection';
 
 export class CategoryCollection implements ICategoryCollection {
@@ -30,14 +30,14 @@ export class CategoryCollection implements ICategoryCollection {
     this.queryable = makeQueryable(this.actions);
     assertInRange(this.os, OperatingSystem);
     ensureValid(this.queryable);
-    ensureNoDuplicates(this.queryable.allCategories);
-    ensureNoDuplicates(this.queryable.allScripts);
+    ensureNoDuplicateIds(this.queryable.allCategories);
+    ensureNoDuplicateIds(this.queryable.allScripts);
   }
 
-  public getCategory(categoryId: number): Category {
-    const category = this.queryable.allCategories.find((c) => c.id === categoryId);
+  public getCategory(executableId: ExecutableId): Category {
+    const category = this.queryable.allCategories.find((c) => c.executableId === executableId);
     if (!category) {
-      throw new Error(`Missing category with ID: "${categoryId}"`);
+      throw new Error(`Missing category with ID: "${executableId}"`);
     }
     return category;
   }
@@ -48,10 +48,10 @@ export class CategoryCollection implements ICategoryCollection {
     return scripts ?? [];
   }
 
-  public getScript(scriptId: string): Script {
-    const script = this.queryable.allScripts.find((s) => s.id === scriptId);
+  public getScript(executableId: string): Script {
+    const script = this.queryable.allScripts.find((s) => s.executableId === executableId);
     if (!script) {
-      throw new Error(`missing script: ${scriptId}`);
+      throw new Error(`missing script: ${executableId}`);
     }
     return script;
   }
@@ -65,17 +65,14 @@ export class CategoryCollection implements ICategoryCollection {
   }
 }
 
-function ensureNoDuplicates<TKey>(entities: ReadonlyArray<IEntity<TKey>>) {
-  const isUniqueInArray = (id: TKey, index: number, array: readonly TKey[]) => array
-    .findIndex((otherId) => otherId === id) !== index;
-  const duplicatedIds = entities
-    .map((entity) => entity.id)
-    .filter((id, index, array) => !isUniqueInArray(id, index, array))
-    .filter(isUniqueInArray);
+function ensureNoDuplicateIds(executables: ReadonlyArray<Identifiable>) { // TODO: Unit test this
+  const duplicatedIds = executables
+    .map((e) => e.executableId)
+    .filter((id, index, array) => array.findIndex((otherId) => otherId === id) !== index);
   if (duplicatedIds.length > 0) {
     const duplicatedIdsText = duplicatedIds.map((id) => `"${id}"`).join(',');
     throw new Error(
-      `Duplicate entities are detected with following id(s): ${duplicatedIdsText}`,
+      `Duplicate executables are detected with following id(s): ${duplicatedIdsText}`,
     );
   }
 }
@@ -120,7 +117,7 @@ function flattenApplication(
 ): [Category[], Script[]] {
   const [subCategories, subScripts] = (categories || [])
     // Parse children
-    .map((category) => flattenApplication(category.subCategories))
+    .map((category) => flattenApplication(category.subcategories))
     // Flatten results
     .reduce(([previousCategories, previousScripts], [currentCategories, currentScripts]) => {
       return [

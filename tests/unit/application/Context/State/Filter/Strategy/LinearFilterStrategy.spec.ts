@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { CategoryStub } from '@tests/unit/shared/Stubs/CategoryStub';
 import { ScriptStub } from '@tests/unit/shared/Stubs/ScriptStub';
 import { CategoryCollectionStub } from '@tests/unit/shared/Stubs/CategoryCollectionStub';
-import type { ICategoryCollection } from '@/domain/ICategoryCollection';
+import type { ICategoryCollection } from '@/domain/Collection/ICategoryCollection';
 import type { Category } from '@/domain/Executables/Category/Category';
 import type { Script } from '@/domain/Executables/Script/Script';
 import type { FilterResult } from '@/application/Context/State/Filter/Result/FilterResult';
@@ -37,7 +37,10 @@ describe('LinearFilterStrategy', () => {
         // arrange
         const matchingFilter = 'matching filter';
         const collection = new CategoryCollectionStub()
-          .withAction(new CategoryStub(2).withScript(createMatchingScript(matchingFilter)));
+          .withAction(
+            new CategoryStub('parent-category-of-matching-script')
+              .withScript(createMatchingScript(matchingFilter)),
+          );
         const strategy = new FilterStrategyTestBuilder()
           .withFilter(matchingFilter)
           .withCollection(collection);

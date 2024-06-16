@@ -5,7 +5,7 @@ import type { IScriptingDefinition } from '@/domain/IScriptingDefinition';
 import { ScriptingLanguage } from '@/domain/ScriptingLanguage';
 import { RecommendationLevel } from '@/domain/Executables/Script/RecommendationLevel';
 import { getEnumValues } from '@/application/Common/Enum';
-import { CategoryCollection } from '@/domain/CategoryCollection';
+import { CategoryCollection } from '@/domain/Collection/CategoryCollection';
 import { ScriptStub } from '@tests/unit/shared/Stubs/ScriptStub';
 import { CategoryStub } from '@tests/unit/shared/Stubs/CategoryStub';
 import { EnumRangeTestRunner } from '@tests/unit/application/Common/EnumRangeTestRunner';

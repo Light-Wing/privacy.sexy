@@ -3,7 +3,7 @@ import type { ICategoryCollectionState } from '@/application/Context/State/ICate
 import { OperatingSystem } from '@/domain/OperatingSystem';
 import type { Script } from '@/domain/Executables/Script/Script';
 import { ScriptStub } from '@tests/unit/shared/Stubs/ScriptStub';
-import type { ICategoryCollection } from '@/domain/ICategoryCollection';
+import type { ICategoryCollection } from '@/domain/Collection/ICategoryCollection';
 import type { UserSelection } from '@/application/Context/State/Selection/UserSelection';
 import type { SelectedScript } from '@/application/Context/State/Selection/Script/SelectedScript';
 import type { FilterContext } from '@/application/Context/State/Filter/FilterContext';
