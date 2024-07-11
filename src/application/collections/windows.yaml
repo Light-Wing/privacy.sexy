@@ -12829,6 +12829,167 @@ actions:
                                 data: "1"
                                 deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
                     -
+                        category: Enable Microsoft Defender Antivirus exclusions
+                        docs: |-
+                            These scripts disable configures Defender to not scan files through different exclusions.
+
+                            TODO: https://learn.microsoft.com/en-us/defender-endpoint/configure-exclusions-microsoft-defender-antivirus
+                        children:
+                            - # TODO: Doc this
+                                name: Disable auto-exclusions # TODO: Rename to "Enable auto-exclusions?"
+                                docs:
+                                    - https://web.archive.org/web/20231027190409/https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/configure-server-exclusions-microsoft-defender-antivirus?view=o365-worldwide
+                                    - https://www.stigviewer.com/stig/windows_defender_antivirus/2017-12-27/finding/V-75159
+                                    - https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.WindowsDefender::DisableAutoExclusions
+                                    # Managing with MpPreference module:
+                                    - https://web.archive.org/web/20240314124716/https://learn.microsoft.com/en-us/powershell/module/defender/set-mppreference?view=windowsserver2022-ps
+                                    - https://web.archive.org/web/20231207105608/https://powershell.one/wmi/root/microsoft/windows/defender/msft_mppreference#disableautoexclusions
+                                call:
+                                    -
+                                        function: SetMpPreference
+                                        parameters:
+                                            property: DisableAutoExclusions     # Status:   Get-MpPreference | Select-Object -Property DisableAutoExclusions
+                                            value: $True                        # Set:      Set-MpPreference -Force -DisableAutoExclusions $True
+                                            default: $False                     # Default:  False | Remove-MpPreference -Force -DisableAutoExclusions | Set-MpPreference -Force -DisableAutoExclusions $False
+                                            setDefaultOnWindows11: 'true'       # `Remove-MpPreference` has no affect (does not change the value) in Windows 11
+                                    -
+                                        function: SetRegistryValue
+                                        parameters:
+                                            keyPath: HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions
+                                            valueName: DisableAutoExclusions
+                                            dataType: REG_DWORD
+                                            data: '1'
+                                            deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                            -
+                                name: Enable Microsoft Defender Antivirus process exclusions
+                                docs: |-
+                                    This script configures:
+                                    - `HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions\Processes` [1]
+                                    - `HKLM\SOFTWARE\Microsoft\Windows Defender\Microsoft Antimalware\Exclusions\Processes` [1]
+
+                                    This may reduce security by reducing malware detection [1].
+
+                                    TODO: Handle wildcards: https://learn.microsoft.com/en-us/defender-endpoint/configure-process-opened-file-exclusions-microsoft-defender-antivirus#use-wildcards-in-the-process-exclusion-list
+
+                                    [1]: https://www.malwarebytes.com/blog/detections/pum-optional-msexclusion
+
+                                    TODO: https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-defender#excludedprocesses
+                                    TODO: https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.WindowsDefender::Exclusions_Processes
+                                call:
+                                    function: CreateRegistryKey
+                                    parameters:
+                                        keyPath: HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions\Processes\*
+                                        replaceSid: 'true'
+                            -
+                                name: Enable Microsoft Defender Antivirus extension exclusions
+                                docs: |-
+                                    This script configures files having extensions to be excluded from scans [1].
+                                    It achieves by using wildcard (`*`) support in Defender which represents any number of characters [2].
+                                    This way all extensions.
+
+                                    This script configures:
+                                    - `HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions\Extensions` [1]
+                                    - `HKLM\SOFTWARE\Microsoft\Windows Defender\Microsoft Antimalware\Exclusions\Extensions` [1]
+
+                                    This may reduce security by reducing malware detection [1].
+
+                                    [1]: https://www.malwarebytes.com/blog/detections/pum-optional-msexclusion
+
+                                    TODO: https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.WindowsDefender::Exclusions_Extensions
+                                    TODO: https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-defender#excludedextensions
+                                call:
+                                    -
+                                        function: SetRegistryValue
+                                        parameters:
+                                            keyPath: HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions\Extensions
+                                            valueName: '*'
+                                            dataType: REG_SZ
+                                            data: ""
+                                            deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                            -
+                                name: Enable Microsoft Defender Antivirus temporary path exclusions 
+                                docs: |-
+                                    This script configures:
+                                    - `HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions\TemporaryPaths`[1]
+                                    - `HKLM\SOFTWARE\Microsoft\Windows Defender\Microsoft Antimalware\Exclusions\TemporaryPaths`
+                            -
+                                name: Enable Microsoft Defender Antivirus Ip Address exclusions
+                                docs: |-
+                                    https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.WindowsDefender::Exclusions_IpAddresses
+                                code: TODO: Does wildcard work?
+                            -
+                                name: Enable Microsoft Defender Antivirus path exclusions # TODO: Add also `set-mppreference -ExclusionExtension *.*`
+                                docs: |- # TODO: Revise
+                                    This script adds global exclusions for Defender Antivirus to impair its real-time scanning feature.
+
+                                    This script improves your privacy by eliminating potential data sharing with third-parties such as Microsoft during AV scans.
+                                    It improves your system performance by eliminating processing needied for your files.
+                                    However, it may reduce your security due to missing antivirus scans against threats.
+
+                                    This script modifies exclusions using `Add-MpPreference` and `Remove-MpPreference` cmdlets.
+                                    These are the official way to modify settings for Defender [1].
+                                    However, this `cmdlet` may not be available if its disabled or on older systems.
+                                    To ensure the exclusions are dadded, this script also configures Windows Registry Settings**:
+
+                                    - `HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths`: For modern versions of Defender [3] [4] [5].
+                                    - `HKLM\SOFTWARE\Microsoft\Microsoft Antimalware\Exclusions\Paths` for legacy versaions of Defender [3] [6] [7].
+
+                                    By default, Defender does not come with any exclusions, verified since Windows 10 22H2 and Windows 11 23H2.
+
+                                    [1]: https://learn.microsoft.com/en-us/powershell/module/defender/?view=windowsserver2022-ps
+                                    [3]: https://github.com/SigmaHQ/sigma/blob/0bb6f0c0d75ae3e1c37f9ab77d68f20cdb32ecd3/rules/windows/process_creation/proc_creation_win_reg_defender_exclusion.yml#L22
+                                    [4]: https://www.elevenforum.com/t/add-or-remove-exclusions-for-microsoft-defender-antivirus-in-windows-11.8797/
+                                    [5]: https://m365internals.com/2021/07/05/why-are-windows-defender-av-logs-so-important-and-how-to-monitor-them-with-azure-sentinel/
+                                    [6]: https://www.philedmonds.com/2010/03/microsoft-security-essentials-exclude-network-paths-from-real-time-scan/
+                                    [7]: https://web.archive.org/web/20100313070300/http://social.answers.microsoft.com:80/Forums/en-US/msescan/thread/5c90c46c-f71d-495c-b967-a0264771144e
+
+                                    TODO: https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.WindowsDefender::Exclusions_Paths
+                                    TODO: https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-defender#excludedpaths
+                                call:
+                                    function: RunPowerShell
+                                    parameters:
+                                        code: |-
+                                            allDrives=(Get-PSDrive -PSProvider FileSystem).Root
+                                            foreach ($driveLetter in $allDrives) {
+                                                $drivePath = "$($driveLetter):\"
+                                                Write-Output "Excluding $drivePath..."
+                                                Write-Output 'Adding exclusion using Defender cmdlet...'
+                                                Add-MpPreference -ExclusionPath $drivePath -Force -ErrorAction SilentlyContinue
+                                                Write-Output 'Adding exclusion using Defender registry...'
+                                                reg add 'HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths' `
+                                                    /v "$drivePath" `
+                                                    /t 'DWORD' `
+                                                    /d '0' `
+                                                    /f
+                                                Write-Output 'Adding exclusion using Microsoft Antimalware (outdated) registry...'
+                                                reg add 'HKLM\SOFTWARE\Microsoft\Microsoft Antimalware\Exclusions\Paths' `
+                                                    /v "$drivePath" `
+                                                    /t 'DWORD' `
+                                                    /d '0' `
+                                                    /f
+                                                Write-Output "Successfully excluded $drivePath."
+                                            }
+                                        revertCode: |- # Remove-MpPreference Shows werror if exclusion does not exist
+                                            allDrives=(Get-PSDrive -PSProvider FileSystem).Root
+                                            foreach ($driveLetter in $allDrives) {
+                                                $drivePath = "$($driveLetter):\"
+                                                Write-Output "Removing exclusions for $drivePath..."
+                                                Write-Output "Removing exclusing using Defender cmdlet..."
+                                                Remove-MpPreference `
+                                                    -ExclusionPath "$drivePath" `
+                                                    -Force `
+                                                    -ErrorAction SilentlyContinue
+                                                Write-Output "Removing exclusing using Defender registry..."
+                                                reg delete 'HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths' `
+                                                    /v "$drivePath" `
+                                                    /f 2>$null
+                                                Write-Output "Removing exclusing using Microsoft Antimalware (outdated) registry..."
+                                                reg delete 'HKLM\SOFTWARE\Microsoft\Microsoft Antimalware\Exclusions\Paths' `
+                                                    /v "$drivePath" `
+                                                    /f 2>$null
+                                                Write-Output "Successfully restored exclusions for $drivePath."
+                                            }
+                    -
                         category: Disable Defender features
                         # Status: Get-MpPreference
                         children:
@@ -13595,31 +13756,6 @@ actions:
                             #                    function: DeleteFiles
                             #                    parameters:
                             #                        fileGlob: '%WINDIR%\System32\CodeIntegrity\SIPolicy.p7b'
-                            -
-                                name: Disable auto-exclusions
-                                docs:
-                                    - https://web.archive.org/web/20231027190409/https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/configure-server-exclusions-microsoft-defender-antivirus?view=o365-worldwide
-                                    - https://www.stigviewer.com/stig/windows_defender_antivirus/2017-12-27/finding/V-75159
-                                    - https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.WindowsDefender::DisableAutoExclusions
-                                    # Managing with MpPreference module:
-                                    - https://web.archive.org/web/20240314124716/https://learn.microsoft.com/en-us/powershell/module/defender/set-mppreference?view=windowsserver2022-ps
-                                    - https://web.archive.org/web/20231207105608/https://powershell.one/wmi/root/microsoft/windows/defender/msft_mppreference#disableautoexclusions
-                                call:
-                                    -
-                                        function: SetMpPreference
-                                        parameters:
-                                            property: DisableAutoExclusions     # Status:   Get-MpPreference | Select-Object -Property DisableAutoExclusions
-                                            value: $True                        # Set:      Set-MpPreference -Force -DisableAutoExclusions $True
-                                            default: $False                     # Default:  False | Remove-MpPreference -Force -DisableAutoExclusions | Set-MpPreference -Force -DisableAutoExclusions $False
-                                            setDefaultOnWindows11: 'true'       # `Remove-MpPreference` has no affect (does not change the value) in Windows 11
-                                    -
-                                        function: SetRegistryValue
-                                        parameters:
-                                            keyPath: HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions
-                                            valueName: DisableAutoExclusions
-                                            dataType: REG_DWORD
-                                            data: '1'
-                                            deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
                             -
                                 category: Disable Defender scans
                                 children:
