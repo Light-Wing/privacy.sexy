@@ -3389,7 +3389,8 @@ actions:
                                     function: DisableService
                                     parameters:
                                         serviceName: PcaSvc # Check: (Get-Service -Name 'PcaSvc').StartType
-                                        defaultStartupMode: Automatic # Allowed values: Automatic | Manual
+                                        # Windows 10 21H1: Manual | Windows 11 22H2: Automatic
+                                        defaultStartupMode: Automatic # Allowed values: Automatic | Manual | Boot
             -
                 category: Disable Windows telemetry and data collection
                 children:
@@ -3424,7 +3425,7 @@ actions:
                                     function: DisableService
                                     parameters:
                                         serviceName: DiagTrack # Check: (Get-Service -Name DiagTrack).StartType
-                                        defaultStartupMode: Automatic # Allowed values: Automatic | Manual
+                                        defaultStartupMode: Automatic # Allowed values: Automatic | Manual | Boot
                             -
                                 name: Disable WAP push notification routing service # Device Management Wireless Application Protocol (WAP) Push message Routing Service
                                 recommend: standard
@@ -3441,7 +3442,7 @@ actions:
                                     function: DisableService
                                     parameters:
                                         serviceName: dmwappushservice # Check: (Get-Service -Name dmwappushservice).StartType
-                                        defaultStartupMode: Manual # Allowed values: Automatic | Manual
+                                        defaultStartupMode: Manual # Allowed values: Automatic | Manual | Boot
                             -
                                 name: Disable "Diagnostics Hub Standard Collector" service
                                 docs: |-
@@ -3457,7 +3458,7 @@ actions:
                                     function: DisableService
                                     parameters:
                                         serviceName: diagnosticshub.standardcollector.service # Check: (Get-Service -Name diagnosticshub.standardcollector.service).StartType
-                                        defaultStartupMode: Manual # Allowed values: Automatic | Manual
+                                        defaultStartupMode: Manual # Allowed values: Automatic | Manual | Boot
                             -
                                 name: Disable "Diagnostic Execution Service" (`diagsvc`)
                                 docs: |-
@@ -3473,7 +3474,7 @@ actions:
                                     function: DisableService
                                     parameters:
                                         serviceName: diagsvc # Check: (Get-Service -Name diagsvc).StartType
-                                        defaultStartupMode: Manual # Allowed values: Automatic | Manual
+                                        defaultStartupMode: Manual # Allowed values: Automatic | Manual | Boot
                     -
                         name: Disable "Customer Experience Improvement Program" scheduled tasks
                         recommend: standard
@@ -3959,6 +3960,9 @@ actions:
                             [3]: https://web.archive.org/web/20231018135918/https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63493 "The system must be configured to allow a local or DOD-wide collector to request additional error reporting diagnostic data to be sent. | stigviewer.com"
                             [4]: https://web.archive.org/web/20231018135930/https://batcmd.com/windows/10/services/wersvc/ "Windows Error Reporting Service - Windows 10 Service - batcmd.com"
                             [5]: https://web.archive.org/web/20231019222221/https://batcmd.com/windows/10/services/wercplsupport/ "Problem Reports Control Panel Support - Windows 10 Service - batcmd.com"
+
+                            # TODO: Windows Error Reporting Service sends error back to Microsoft:
+                            - https://web.archive.org/web/20210926064024/https://docs.microsoft.com/en-us/microsoft-365/security/defender-endpoint/microsoft-defender-antivirus-on-windows-server?view=o365-worldwide
                         call:
                             -
                                 function: Comment
@@ -4037,12 +4041,12 @@ actions:
                                 function: DisableService
                                 parameters:
                                     serviceName: wersvc # Check: (Get-Service -Name wersvc).StartType
-                                    defaultStartupMode: Manual # Allowed values: Automatic | Manual
+                                    defaultStartupMode: Manual # Allowed values: Automatic | Manual | Boot
                             - # Problem Reports Control Panel Support
                                 function: DisableService
                                 parameters:
                                     serviceName: wercplsupport # Check: (Get-Service -Name wercplsupport).StartType
-                                    defaultStartupMode: Manual # Allowed values: Automatic | Manual
+                                    defaultStartupMode: Manual # Allowed values: Automatic | Manual | Boot
             -
                 category: Disable Windows Update data collection
                 children:
@@ -4200,7 +4204,7 @@ actions:
                                     # "Set-Service" returns "Access is denied" since Windows 10 1809.
                                     parameters:
                                         serviceName: DoSvc # Check: (Get-Service -Name 'DoSvc').StartType
-                                        defaultStartupMode: Automatic # Allowed values: Automatic | Manual
+                                        defaultStartupMode: Automatic # Allowed values: Automatic | Manual | Boot
             -
                 name: Disable cloud-based speech recognition
                 recommend: standard
@@ -5299,7 +5303,7 @@ actions:
                             function: DisableService
                             parameters:
                                 serviceName: WbioSrvc # Check: (Get-Service -Name WbioSrvc).StartType
-                                defaultStartupMode: Manual # Allowed values: Automatic | Manual
+                                defaultStartupMode: Manual # Allowed values: Automatic | Manual | Boot
             -
                 name: Disable Wi-Fi Sense
                 recommend: standard
@@ -5452,7 +5456,7 @@ actions:
                             function: DisableService
                             parameters:
                                 serviceName: wisvc # Check: (Get-Service -Name wisvc).StartType
-                                defaultStartupMode: Manual # Allowed values: Automatic | Manual
+                                defaultStartupMode: Manual # Allowed values: Automatic | Manual | Boot
                     -
                         name: Disable Microsoft feature trials
                         docs: https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.DataCollection::EnableExperimentation
@@ -6377,7 +6381,7 @@ actions:
                     #             function: DisableService
                     #             parameters:
                     #                 serviceName: ClickToRunSvc # Check: (Get-Service -Name ClickToRunSvc).StartType
-                    #                 defaultStartupMode: Automatic # Allowed values: Automatic | Manual
+                    #                 defaultStartupMode: Automatic # Allowed values: Automatic | Manual | Boot
                     -
                         name: Disable "Microsoft Office Subscription Heartbeat" task
                         docs: |-
@@ -9266,7 +9270,7 @@ actions:
                     function: DisableService
                     parameters:
                         serviceName: LogiRegistryService # Check: (Get-Service -Name 'LogiRegistryService').StartType
-                        defaultStartupMode: Automatic # Allowed values: Automatic | Manual
+                        defaultStartupMode: Automatic # Allowed values: Automatic | Manual | Boot
             -
                 category: Disable Dropbox background automatic updates
                 docs: |-
@@ -9412,7 +9416,7 @@ actions:
                             function: DisableService
                             parameters:
                                 serviceName: WMPNetworkSvc # Check: (Get-Service -Name 'WMPNetworkSvc').StartType
-                                defaultStartupMode: Manual # Allowed values: Automatic | Manual
+                                defaultStartupMode: Manual # Allowed values: Automatic | Manual | Boot
             -
                 name: Disable CCleaner data collection
                 call:
@@ -12478,6 +12482,12 @@ actions:
                     [11]: https://web.archive.org/web/20240409171421/https://learn.microsoft.com/en-us/defender/ "Microsoft Defender products and services | Microsoft Learn"
                 # See defender status: Get-MpComputerStatus
                 children:
+                    # TODO:
+                    #   - `HKLM\Software\Policies\Microsoft\Windows Defender!AllowFastServiceStartup` -> 0
+                    #   - `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock!AllowDevelopmentWithoutDevLicense` > 1
+                    #   - `HKLM\SOFTWARE\Policies\Microsoft\Windows\Appx!AllowDevelopmentWithoutDevLicense` > 1
+                    #   - `HKLM\SYSTEM\CurrentControlSet\Control\CI\Policy!VerifiedAndReputablePolicyState` > 1
+                    # TODO: serach for `Policies\Microsoft\Windows Defender\Features`, theres stuff not added here
                     -
                         category: Disable Microsoft Defender firewall
                         docs: |-
@@ -12690,6 +12700,26 @@ actions:
                                                     grantPermissions: 'true' # 🔒️ Protected on Windows 10 since 22H2 | 🔒️ Protected on Windows 11 since 22H2
                                             -
                                                 function: ShowComputerRestartSuggestion
+                                    -
+                                        name: Disable Windows Filtering Platform (WFP) and Base Filtering Engine (BFE)
+                                        docs: |-
+                                            Windows Filtering Platform
+
+                                            A service that controls the operation of the **Windows Filtering Platform** [1].
+                                            Windows Filtering Platform (WFP) is a network traffic processing platform designed
+                                            to replace the Windows XP and Windows Server 2003 network traffic filtering interfaces [1].
+                                            WFP consists of a set of hooks into the network stack and a filtering engine that
+                                            coordinates network stack interactions [1].
+
+                                            It performs the following tasks:
+
+                                            - Accepts filters and other configuration settings for the platform [1].
+                                            - Reports the current state of the system, including statistics [1].
+                                            - Enforces the security model for accepting configuration in the platform [1].
+                                              For example, a local administrator can add filters but other users can only view them [1].
+                                            . Plumbs configuration settings to other modules in the system [1]
+                                              For example, IPsec negotiation polices go to IKE/AuthIP keying modules, filters go to the filter engine [1].
+                                        code: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BFE # TODO: not tested
                             -
                                 name: Disable firewall via command-line utility
                                 # ❗️ Following must be enabled and in running state:
@@ -12817,21 +12847,92 @@ actions:
                             - https://web.archive.org/web/20240314125156/https://learn.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/security-malware-windows-defender-disableantispyware
                             - https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.WindowsDefender::DisableAntiSpywareDefender
                         call:
-                            function: SetRegistryValue
-                            parameters:
-                                keyPath: HKLM\SOFTWARE\Policies\Microsoft\Windows Defender
-                                valueName: DisableAntiSpyware
-                                dataType: REG_DWORD
-                                data: "1"
-                                deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                            -
+                                function: SetRegistryValue
+                                parameters:
+                                    keyPath: HKLM\SOFTWARE\Policies\Microsoft\Windows Defender
+                                    valueName: DisableAntiSpyware
+                                    dataType: REG_DWORD
+                                    data: "1"
+                                    deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                            -
+                                # Disable Firewall through PowerShell cmdled # TODO: same as CLI?
+                                function: RunPowerShell
+                                parameters:
+                                    code: Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled True
+                            - #TODO: Test permissions and doc this:
+                                function: SetRegistryValue
+                                parameters:
+                                    keyPath: HKLM\SOFTWARE\Policies\Microsoft\Windows Advanced Threat Protection
+                                    valueName: ForceDefenderPassiveMode
+                                    dataType: REG_DWORD
+                                    data: "1"
+                                    deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                    -
+                        name: Disable Microsoft Defender Antivirus # Deprecated since Windows 10 version 1903
+                        docs: |- 
+                            This script deactivates Microsoft Defender Antivirus on Windows versions before the August 2020 update (version 4.18.2007.8) [1] [2].
+                            Newer versions of Microsoft Defender Antivirus, especially from Windows 10 version 1903 onwards [1], do not support deactivation through system policy [1] [2].
+
+                            Microsoft Defender Antivirus offers protection against malware, including spyware. The **DisableAntiSpyware** setting, when set to `false` (i.e., `1`),
+                            previously disabled Microsoft Defender Antivirus and other non-Microsoft antivirus solutions [1]. However, this setting is now obsolete for devices running
+                            platform version 4.18.2108.4 or newer [1]. Additionally, Microsoft Defender for Endpoint ignores this setting [1]. Tamper protection, introduced in Windows
+                            10 version 1903, prevents unauthorized changes to this setting [1]. The related registry key is
+                            `HKLM\SOFTWARE\Policies\Microsoft\Windows Defender!DisableAntiSpyware` [2] [3].
+
+                            Similarly, the **DisableAntiVirus** policy, intended to deactivate Microsoft Defender Antivirus [2], is applicable only to versions before the
+                            August 2020 update [2]. Post-update, this policy cannot turn off Microsoft Defender Antivirus on client devices [2]. Its associated registry key
+                            is `HKLM\SOFTWARE\Policies\Microsoft\Windows Defender!DisableAntiVirus` [2].
+
+                            > **Caution**: Disabling antivirus can increase privacy by reducing data collection from Microsoft and may enhance system performance.
+                            > However, it poses a significant security risk by reducing protection against malware and other threats. Users should consider the
+                            > trade-offs between privacy, system performance, and security before disabling antivirus protection.
+
+                            [1]: https://web.archive.org/web/20231126024121/https://learn.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/security-malware-windows-defender-disableantispyware "DisableAntiSpyware | Microsoft Learn | learn.microsoft.com"
+                            [2]: https://web.archive.org/web/20231126024330/https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/troubleshoot-onboarding?view=o365-worldwide "Troubleshoot Microsoft Defender for Endpoint onboarding issues | Microsoft Learn | learn.microsoft.com"
+                            [3]: https://web.archive.org/web/20210926064024/https://docs.microsoft.com/en-us/microsoft-365/security/defender-endpoint/microsoft-defender-antivirus-on-windows-server?view=o365-worldwide "Microsoft Defender Antivirus on Windows Server | Microsoft Docs | docs.microsoft.com"
+                        call:
+                            -
+                                function: RunInlineCode
+                                parameters:
+                                    code: reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableAntiSpyware" /t REG_DWORD /d 1 /f
+                                    revertCode: reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableAntiSpyware" /f 2>nul
+                            -
+                                function: RunInlineCode
+                                parameters:
+                                    code: reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableAntiVirus" /t REG_DWORD /d 1 /f
+                                    revertCode: reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableAntiVirus" /f 2>nul
+                        # TODO: Soft-delete defender directory.
+                        # TODO: Make above category
+                        #   name: Remove Windows Defender Definition FilesPermalink
+                        #   docs: |-
+                        #       https://unit42.paloaltonetworks.com/unit42-gorgon-group-slithering-nation-state-cybercrime/
+                        #       Removing definition files would cause ATP to not fire for AntiMalware.
+                        #       https://atomicredteam.io/defense-evasion/T1562.001/#atomic-test-20---remove-windows-defender-definition-files
+                        #       https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/microsoft-defender-antivirus-windows?view=o365-worldwide
+                        #   code: "%ProgramFiles%\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All
+                        #   revertCode: "%ProgramFiles%\Windows Defender\MpCmdRun.exe" -SignatureUpdate
+                        #   TODO: MpDlpService https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/microsoft-defender-antivirus-windows?view=o365-worldwide
+                        #       MDDlpSvc
+                        # TODO:
+                        #   -  Reg.exe  add "HKLM\SOFTWARE\Microsoft\Windows Defender\Scan" /v "AutomaticallyCleanAfterScan" /t REG_DWORD /d "0" /f 
+                        #   - HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender!DisableSpecialRunningModes > 1
+                        #   - HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender!ServiceKeepAlive > 1
                     -
                         category: Disable Defender features
                         # Status: Get-MpPreference
                         children:
                             -
                                 category: Disable Defender Antivirus cloud protection service
-                                docs: https://web.archive.org/web/20240523173753/https://learn.microsoft.com/en-us/defender-endpoint/enable-cloud-protection-microsoft-defender-antivirus?view=o365-worldwide
-                                # Formerly known as: Microsoft MAPS (Microsoft Active Protection Service), Microsoft SpyNet
+                                docs: |-
+                                    Microsoft Defender Antivirus cloud protection helps protect against malware on your endpoints and across your network.
+                                    It's formerly known as *Microsoft Active Protection Service (MAPS)* [2] [3], or *Microsoft SpyNet* [2]). MAPS leverages
+                                    user data to identify potentially malicious programs, sharing details such as file information, IP address, computer
+                                    identification, and system/browser information [2] [3].
+
+                                    [1]: https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/enable-cloud-protection-microsoft-defender-antivirus?view=o365-worldwide
+                                    [2]: https://en.wikipedia.org/wiki/Microsoft_Active_Protection_Service
+                                    [3]: https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj618314(v=ws.11)
                                 children:
                                     -
                                         category: Disable Defender cloud protection features
@@ -12863,14 +12964,24 @@ actions:
                                                 docs:
                                                     - https://web.archive.org/web/20240314122554/https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-defender#cloudextendedtimeout
                                                     - https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.WindowsDefender::MpEngine_MpBafsExtendedTimeout
+                                                    # Managing with MpPreference module:
+                                                    - https://docs.microsoft.com/fr-fr/powershell/module/defender/set-mppreference
                                                 call:
-                                                    function: SetRegistryValue
-                                                    parameters:
-                                                        keyPath: HKLM\Software\Policies\Microsoft\Windows Defender\MpEngine
-                                                        valueName: MpBafsExtendedTimeout
-                                                        dataType: REG_DWORD
-                                                        data: "50"
-                                                        deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                                                    - 
+                                                        function: SetMpPreference
+                                                        parameters:
+                                                            property: CloudExtendedTimeout  # Status:   Get-MpPreference | Select-Object -Property CloudExtendedTimeout
+                                                            value: "'50'"                   # Set:      Set-MpPreference -Force -CloudExtendedTimeout '50'
+                                                            default: $False                 # Default:  0 | Set-MpPreference -Force -CloudExtendedTimeout '0'
+                                                            setDefaultOnWindows11: true     # `Remove-MpPreference` sets it to 0 instead 1 (OS default) in Windows 11
+                                                    -
+                                                        function: SetRegistryValue
+                                                        parameters:
+                                                            keyPath: HKLM\Software\Policies\Microsoft\Windows Defender\MpEngine
+                                                            valueName: MpBafsExtendedTimeout
+                                                            dataType: REG_DWORD
+                                                            data: "50"
+                                                            deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
                                             -
                                                 name: Minimize cloud protection level # Requires "Join Microsoft MAPS"
                                                 docs:
@@ -13044,14 +13155,23 @@ actions:
                                     - https://web.archive.org/web/20240314124546/https://learn.microsoft.com/en-us/windows/client-management/mdm/defender-csp#configuration-enablefilehashcomputation
                                     - https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.WindowsDefender::MpEngine_EnableFileHashComputation
                                     - https://techcommunity.microsoft.com/t5/microsoft-security-baselines/security-baseline-final-windows-10-and-windows-server-version/ba-p/1543631
+                                    # Managing with MpPreference module:
+                                    - https://docs.microsoft.com/en-us/powershell/module/defender/set-mppreference
                                 call:
-                                    function: SetRegistryValue
-                                    parameters:
-                                        keyPath: HKLM\Software\Policies\Microsoft\Windows Defender\MpEngine
-                                        valueName: EnableFileHashComputation
-                                        dataType: REG_DWORD
-                                        data: "0"
-                                        deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                                    -
+                                        function: SetRegistryValue
+                                        parameters:
+                                            keyPath: HKLM\Software\Policies\Microsoft\Windows Defender\MpEngine
+                                            valueName: EnableFileHashComputation
+                                            dataType: REG_DWORD
+                                            data: "0"
+                                            deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                                    -
+                                        function: SetMpPreference
+                                        parameters:
+                                            property: EnableFileHashComputation     # Status:   Get-MpPreference | Select-Object -Property EnableFileHashComputation
+                                            value: $True                            # Set:      Set-MpPreference -Force -EnableFileHashComputation $True
+                                            default: $False                         # Default: False (Enabled) | Remove-MpPreference -Force -EnableFileHashComputation | Set-MpPreference -Force -EnableFileHashComputation $False
                             -
                                 category: Disable "Windows Defender Exploit Guard"
                                 docs: https://web.archive.org/web/20231020130741/https://www.microsoft.com/en-us/security/blog/2017/10/23/windows-defender-exploit-guard-reduce-the-attack-surface-against-next-generation-malware/
@@ -13069,17 +13189,35 @@ actions:
                                                 deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
                                     -
                                         name: Disable controlled folder access
-                                        docs:
-                                            - https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.WindowsDefender::ExploitGuard_ControlledFolderAccess_EnableControlledFolderAccess
-                                            - https://web.archive.org/web/20240314124339/https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/enable-controlled-folders?view=o365-worldwide
+                                        docs: |-
+                                            This script turns of controlled folder access feature.
+
+                                            Controlled folder access helps you protect valuable data from malicious apps and threats, such as ransomware [1].
+
+                                            This feature is disabled by default [2].
+
+                                            It can be controlled using PowerShell MpPreference module using `EnableControlledFolderAccess` key [2] [1], the feature is disabled using `Disabled` value.
+
+                                            It can also be disabled using `Software\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\Controlled Folder Access` registry key [3].
+
+                                            [1]: https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/enable-controlled-folders
+                                            [2]: https://learn.microsoft.com/en-us/powershell/module/defender/set-mppreference?view=windowsserver2022-ps#-enablecontrolledfolderaccess
+                                            [3]: https://web.archive.org/web/20230422135736/https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.WindowsDefender::ExploitGuard_ControlledFolderAccess_EnableControlledFolderAccess
                                         call:
-                                            function: SetRegistryValue
-                                            parameters:
-                                                keyPath: HKLM\Software\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\Controlled Folder Access
-                                                valueName: EnableControlledFolderAccess
-                                                dataType: REG_DWORD
-                                                data: "0"
-                                                deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                                            -
+                                                function: SetMpPreference
+                                                parameters:
+                                                    property: EnableControlledFolderAccess  # Status:   Get-MpPreference | Select-Object -Property EnableControlledFolderAccess
+                                                    value: 'Disabled'                       # Set:      Set-MpPreference -Force -EnableControlledFolderAccess 'Enabled'
+                                                    default: 'Disabled'                     # Default:  Disabled | Remove-MpPreference -Force -EnableControlledFolderAccess | Set-MpPreference -Force -EnableControlledFolderAccess $False
+                                            -
+                                                function: SetRegistryValue
+                                                parameters:
+                                                    keyPath: HKLM\Software\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\Controlled Folder Access
+                                                    valueName: EnableControlledFolderAccess
+                                                    dataType: REG_DWORD
+                                                    data: "0"
+                                                    deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
                             -
                                 category: Disable network inspection system features
                                 children:
@@ -13137,7 +13275,6 @@ actions:
                                                     value: $True                            # Set:      Set-MpPreference -Force -DisableRealtimeMonitoring $True
                                                                                             # ❌ Windows 11: Does not fail but does not set $True value | ✅ Windows 10: Works as expected
                                                     default: $False                         # Default: False (Enabled) | Remove-MpPreference -Force -DisableRealtimeMonitoring | Set-MpPreference -Force -DisableRealtimeMonitoring $False
-
                                             -
                                                 function: SetRegistryValue
                                                 parameters:
@@ -13146,6 +13283,11 @@ actions:
                                                     dataType: REG_DWORD
                                                     data: "1"
                                                     deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                                            - # TODO: https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/migrating-asr-rules?view=o365-worldwide
+                                                function: RunInlineCode
+                                                parameters:
+                                                    code: reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Policy Manager" /v "AllowRealTimeMonitoring" /t REG_DWORD /d "1" /f
+                                                    revertCode: reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Policy Manager" /v "AllowRealTimeMonitoring" /f 2>nul
                                     -
                                         name: Disable intrusion prevention system (IPS)
                                         docs:
@@ -13267,7 +13409,7 @@ actions:
                                                     function: SetRegistryValue
                                                     parameters:
                                                         keyPath: HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection
-                                                        valueName: DisableWindowsSpotlightFeatures
+                                                        valueName: DisableOnAccessProtection
                                                         dataType: REG_DWORD
                                                         data: "1"
                                                         deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
@@ -13309,6 +13451,67 @@ actions:
                                                 dataType: REG_DWORD
                                                 data: "1"
                                                 deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                                    -
+                                        name: Disable synchronous real-time scanning of Dev Drive
+                                        docs: |-
+                                            This script disables synchronous real-time scanning in Dev Drive on Windows 11.
+                                            This way, it enables a performance mode in Defender [1].
+
+                                            Dev Drive, a new storage volume type, is designed for developers to improve performance using ReFS technology [1] [2].
+                                            By default, Dev Drive operates in asynchronous scan mode, balancing threat protection and performance [1].
+                                            This script switches scanning from synchronous (real-time protection) to asynchronous (scanning after file operations),
+                                            resulting in faster performance but potentially reduced security [1].
+
+                                            Synchronous scanning initiates a real-time protection scan when opening a file, while asynchronous scanning defers the
+                                            security scan until after the file operation [1]. Disabling synchronous scanning can impact performance, especially in
+                                            development environments with frequent file operations [2].
+
+                                            To enable performance mode, real-time protection must be active, and Dev Drive must be designated as trusted [1].
+
+                                            This script uses `SetMpPreference` command [1] and `HKLM\Software\Microsoft\Windows Defender\Real-Time Protection!DisableAsyncScanOnOpen`
+                                            registry key modification [3] to alter the scanning behavior.
+
+                                            > **Caution**: Changing these settings can lower security by prioritizing performance over immediate threat scanning.
+                                            > It is recommended to understand the security implications before proceeding.
+
+                                            [1]: https://web.archive.org/web/20231126014947/https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/microsoft-defender-endpoint-antivirus-performance-mode?view=o365-worldwide "Protect Dev Drive using performance mode | Microsoft Learn | learn.microsoft.com"
+                                            [2]: https://web.archive.org/web/20231126014908/https://blogs.windows.com/windowsdeveloper/2023/09/26/new-experiences-designed-to-make-every-developer-more-productive-on-windows-11/ "New experiences designed to make every developer more productive on Windows 11 - Windows Developer Blog | blogs.windows.com"
+                                            [3]: https://www.elevenforum.com/t/enable-or-disable-performance-mode-for-dev-drive-protection-in-windows-11.17215/ "Enable or Disable Performance Mode for Dev Drive Protection in Windows 11 Tutorial | Windows 11 Forum | www.elevenforum.com"
+                                        call:
+                                            -
+                                                function: RunInlineCodeAsTrustedInstaller # Otherwise we get "ERROR: Access is denied." (>= 22H2)
+                                                parameters:
+                                                    code: reg add "HKLM\Software\Microsoft\Windows Defender\Real-Time Protection" /v "DisableAsyncScanOnOpen" /t REG_DWORD /d "0" /f
+                                                    revertCode: reg delete "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableAsyncScanOnOpen" /f 2>nul
+                                            -
+                                                function: SetMpPreference
+                                                parameters:
+                                                    property: PerformanceModeStatus         # Status:   Get-MpPreference | Select-Object -Property PerformanceModeStatus
+                                                    value: 'Enabled'                        # Set:      Set-MpPreference -Force -PerformanceModeStatus 'Enabled'
+                                                    default: 'Disabled'                     # Default:  Disabled | Remove-MpPreference -Force -PerformanceModeStatus | Set-MpPreference -Force -PerformanceModeStatus 'Disabled'
+
+                                    -
+                                        name: Disable Dynamic Protection Analysis (DPA) feature
+                                        docs: |-
+                                            This script disables the Dynamic Protection Analysis (DPA) feature in Microsoft Defender.
+                                            DPA, part of Microsoft Defender's real-time protection conducts continuous behavioral analysis to identify potential threats.
+                                            However, this monitoring may lead to increased data collection by Microsoft, raising privacy concerns.
+
+                                            Disabling DPA aims to mitigate this data collection, enhancing user privacy by reducing the scope of Microsoft Defender's surveillance.
+                                            Additionally, this action may yield performance improvements, particularly in scenarios where real-time scanning imposes a significant
+                                            burden on system resources. Yet, users should be aware that disabling DPA reduces the system's security and defensive capabilities against
+                                            threats, as it limits the efficacy of Microsoft Defender's real-time response.
+
+                                            The script modifies the `HKLM\SOFTWARE\Microsoft\Windows Defender\Real-Time Protection!DpaDisabled` registry key to achieve this.
+
+                                            > **Caution:** Users need to weigh the privacy advantages against the potential decrease in security effectiveness.
+                                            > This setting change is significant for systems with modern versions of Windows, where DPA is a default-enabled feature.
+                                        call:
+                                            function: RunInlineCodeAsTrustedInstaller # Otherwise we get "ERROR: Access is denied." (>= 22H2)
+                                            parameters:
+                                                code: reg add "HKLM\Software\Microsoft\Windows Defender\Real-Time Protection" /v "DpaDisabled" /t REG_DWORD /d "1" /f
+                                                revertCode: |- # This value exists with value `0` by default since Windows 10 >= 22H2 and Windows 11 >= 22H2
+                                                    reg add "HKLM\Software\Microsoft\Windows Defender\Real-Time Protection" /v "DpaDisabled" /t REG_DWORD /d "0" /f 2>nul
                             -
                                 category: Disable Defender remediation
                                 children:
@@ -13456,7 +13659,7 @@ actions:
                                         dataType: REG_DWORD
                                         data: '1'
                                         deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
-                            # -  # Too good to disable
+                            # -  Too good to disable, also no reported privacy issues
                             #     category: Disable Microsoft Defender "Device Guard" and "Credential Guard"
                             #     docs: https://techcommunity.microsoft.com/t5/iis-support-blog/windows-10-device-guard-and-credential-guard-demystified/ba-p/376419
                             #     children:
@@ -14963,13 +15166,15 @@ actions:
                                 #   3. Try `DisableServiceInRegistryAsTrustedInstaller` as last effort.
                                 children:
                                     -
-                                        name: Disable "Microsoft Defender Antivirus Service"
+                                        name: Disable "Microsoft Defender Antivirus service" service
                                         # ❗️ Breaks `Set-MpPreference` PowerShell cmdlet that helps to manage Defender
                                         #   E.g. `Set-MpPreference -Force -MAPSReporting 0` throws:
                                         #       `Set-MpPreference: Operation failed with the following error: 0x800106ba. Operation: Set-MpPreference.`
                                         #       `Target: MAPS_MAPSReporting. FullyQualifiedErrorId : HRESULT 0x800106ba,Set-MpPreference`
                                         docs: |-
-                                            https://web.archive.org/web/20240314091238/https://batcmd.com/windows/10/services/windefend/
+                                            It is a service used by Microsoft Defender [2] [3].
+
+                                            It's named as "Microsoft Defender Antivirus service", "Antimalware Service Executable" and "Microsoft Defender Antivirus" [3].
 
                                             ### Overview of default service statuses
 
@@ -14977,6 +15182,14 @@ actions:
                                             | ---------- | -------| ---------- |
                                             | Windows 10 (≥ 22H2) | 🟢 Running | Automatic |
                                             | Windows 11 (≥ 23H2) | 🟢 Running | Automatic |
+
+                                            [2]: https://web.archive.org/web/20231126024330/https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/troubleshoot-onboarding?view=o365-worldwide "Troubleshoot Microsoft Defender for Endpoint onboarding issues | Microsoft Learn | learn.microsoft.com"
+                                            [3]: https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/microsoft-defender-antivirus-windows?view=o365-worldwide
+
+                                            TODO: 
+                                            - https://web.archive.org/web/20240314091238/https://batcmd.com/windows/10/services/windefend/
+                                            # Microsoft Defender Antivirus service, source:
+                                            - https://web.archive.org/web/20210926064024/https://docs.microsoft.com/en-us/microsoft-365/security/defender-endpoint/microsoft-defender-antivirus-on-windows-server?view=o365-worldwide
                                         call:
                                             -
                                                 # Windows 10 (22H2): ❌ `DisableService` | ❌ `DisableServiceInRegistry` | ✅ `DisableServiceInRegistryAsTrustedInstaller`
@@ -14991,13 +15204,22 @@ actions:
                                             #         fileGlob: '%PROGRAMFILES%\Windows Defender\MsMpEng.exe' # Found also in C:\ProgramData\Microsoft\Windows Defender\Platform\4.18.2107.4-0 and \4.18.2103.7-0 ...
                                             #         grantPermissions: 'true' # 🔒️ Protected on Windows 10 since 22H2 | 🔒️ Protected on Windows 11 since 22H2
                                     -
-                                        category: Disable Defender kernel-level drivers
+                                        category: Disable kernel-level Microsoft Defender drivers
                                         children:
-                                            # - Skipping wdnsfltr ("Windows Defender Network Stream Filter Driver") as it's Windows 1709 only
+                                            # Commented out drivers:
+                                            #   - `wdnsfltr`: "Windows Defender Network Stream Filter Driver" as it's Windows 1709 only
                                             -
-                                                name: Disable "Microsoft Defender Antivirus Network Inspection System Driver" service
+                                                name: Disable "Microsoft Defender Antivirus Network Inspection System Driver" driver
                                                 docs: |-
-                                                    https://web.archive.org/web/20240314062056/https://batcmd.com/windows/10/services/wdnisdrv/
+                                                    This script disables `WdNisDrv` service, known as "Microsoft Defender Antivirus Network Inspection System Driver" [1].
+
+                                                    It's a service used by Windows Defender [2].
+
+                                                    This service helps guard against intrusion attempts targeting known and newly discovered vulnerabilities in
+                                                    network protocols [1].
+
+                                                    [1]: https://web.archive.org/web/20240314062056/https://batcmd.com/windows/10/services/wdnisdrv/
+                                                    [2]: https://web.archive.org/web/20231126024330/https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/troubleshoot-onboarding?view=o365-worldwide "Troubleshoot Microsoft Defender for Endpoint onboarding issues | Microsoft Learn | learn.microsoft.com"
 
                                                     ### Overview of default service statuses
 
@@ -15022,8 +15244,14 @@ actions:
                                                             fileGlob: '%SYSTEMROOT%\System32\drivers\WdNisDrv.sys'
                                                             grantPermissions: 'true' # 🔒️ Protected on Windows 10 since 22H2 | 🔒️ Protected on Windows 11 since 22H2
                                             -
-                                                name: Disable "Microsoft Defender Antivirus Mini-Filter Driver" service
+                                                name: Disable "Microsoft Defender Antivirus Mini-Filter Driver" driver
                                                 docs: |-
+                                                    It is a service used by Windows Defender [2]
+                                                    
+                                                    [2]: https://web.archive.org/web/20231126024330/https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/troubleshoot-onboarding?view=o365-worldwide "Troubleshoot Microsoft Defender for Endpoint onboarding issues | Microsoft Learn | learn.microsoft.com"
+
+                                                    TODO:
+
                                                     - https://web.archive.org/web/20240314091638/https://n4r1b.com/posts/2020/01/dissecting-the-windows-defender-driver-wdfilter-part-1/
                                                     - https://web.archive.org/web/20240314062047/https://batcmd.com/windows/10/services/wdfilter/
 
@@ -15044,15 +15272,20 @@ actions:
                                                             serviceName: WdFilter # Check: (Get-Service -Name 'WdFilter').StartType
                                                             defaultStartupMode: Boot # Allowed values: Boot | System | Automatic | Manual
                                                             # notStoppable: true # See `sc queryex WdFilter`, tested since Windows 10 22H2, Windows 11 22H2.
+                                                            # TODO: Stopping this service does not work, fails with:
+                                                            #   The requested control is not valid for this service.
                                                     -
                                                         function: SoftDeleteFiles
                                                         parameters:
                                                             fileGlob: '%SYSTEMROOT%\System32\drivers\WdFilter.sys'
                                                             grantPermissions: 'true' # 🔒️ Protected on Windows 10 since 22H2 | 🔒️ Protected on Windows 11 since 22H2
                                             -
-                                                name: Disable "Microsoft Defender Antivirus Boot Driver" service
+                                                name: Disable "Microsoft Defender Antivirus Boot Driver" driver
                                                 docs: |-
-                                                    https://web.archive.org/web/20240314062057/https://batcmd.com/windows/10/services/wdboot/
+                                                    It is a service used by Windows Defender [2].
+
+                                                    [1]: https://web.archive.org/web/20240314062057/https://batcmd.com/windows/10/services/wdboot/
+                                                    [2]: https://web.archive.org/web/20231126024330/https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/troubleshoot-onboarding?view=o365-worldwide "Troubleshoot Microsoft Defender for Endpoint onboarding issues | Microsoft Learn | learn.microsoft.com"
 
                                                     ### Overview of default service statuses
 
@@ -15161,14 +15394,115 @@ actions:
                                                 parameters:
                                                     fileGlob: '%WINDIR%\System32\SecurityHealthService.exe'
                                                     grantPermissions: 'true' # 🔒️ Protected on Windows 10 since 22H2 | 🔒️ Protected on Windows 11 since 22H2
+                            -
+                                category: Disable Defender Windows features
+                                docs: |-
+                                    `Get-WindowsOptionalFeature -Online -FeatureName "*Defender*"` to see related features.
+                                children:
+                                    -
+                                        name: Disable "Windows-Defender" feature
+                                        docs: |-
+                                            Windows 10 > 22H2: Feature does not exist
+
+                                            https://github.com/MicrosoftDocs/microsoft-365-docs/blob/b3c6d838ad6c823c5e541a556761ab5faa240bfd/microsoft-365/security/defender-endpoint/enable-update-mdav-to-latest-ws.md?plain=1#L76
+                                            https://github.com/Ariantor/microsoft-365-docs/blob/cba6edb3bf31d3d9f86ef2271dbd78133dcd8118/microsoft-365/security/defender-endpoint/switch-to-mde-phase-2.md?plain=1#L84
+                                            https://github.com/isabella232/microsoft-365-docs-pr.it-IT/blob/d3a567aa6c70fd7ef8b400bf24b52632794041e3/microsoft-365/security/defender-endpoint/switch-to-microsoft-defender-setup.md?plain=1#L101
+                                            https://web.archive.org/web/20210926064024/https://docs.microsoft.com/en-us/microsoft-365/security/defender-endpoint/microsoft-defender-antivirus-on-windows-server?view=o365-worldwide
+                                        call:
+                                            function: DisableFeature
+                                            parameters:
+                                                featureName: Windows-Defender # TODO: Access is denied.
+                                    -
+                                        name: Disable "Windows-Defender-Gui" feature
+                                        docs: |-
+                                            Windows 10 > 22H2: Feature does not exist
+
+                                            https://github.com/MicrosoftDocs/microsoft-365-docs/blob/b3c6d838ad6c823c5e541a556761ab5faa240bfd/microsoft-365/security/defender-endpoint/enable-update-mdav-to-latest-ws.md?plain=1#L76
+                                            https://github.com/Ariantor/microsoft-365-docs/blob/cba6edb3bf31d3d9f86ef2271dbd78133dcd8118/microsoft-365/security/defender-endpoint/switch-to-mde-phase-2.md?plain=1#L84
+                                            https://github.com/isabella232/microsoft-365-docs-pr.it-IT/blob/d3a567aa6c70fd7ef8b400bf24b52632794041e3/microsoft-365/security/defender-endpoint/switch-to-microsoft-defender-setup.md?plain=1#L101
+                                            https://web.archive.org/web/20210926064024/https://docs.microsoft.com/en-us/microsoft-365/security/defender-endpoint/microsoft-defender-antivirus-on-windows-server?view=o365-worldwide
+                                        call:
+                                            function: DisableFeature
+                                            parameters:
+                                                featureName: Windows-Defender-Gui # TODO: Access is denied.
+                                    -
+                                        name: Disable "Windows-Defender-Features" feature
+                                        docs: |-
+                                            Windows 10 > 22H2: Feature does not exist
+
+                                            https://github.com/MicrosoftDocs/microsoft-365-docs/blob/b3c6d838ad6c823c5e541a556761ab5faa240bfd/microsoft-365/security/defender-endpoint/enable-update-mdav-to-latest-ws.md?plain=1#L76
+                                            https://github.com/Ariantor/microsoft-365-docs/blob/cba6edb3bf31d3d9f86ef2271dbd78133dcd8118/microsoft-365/security/defender-endpoint/switch-to-mde-phase-2.md?plain=1#L84
+                                            https://github.com/isabella232/microsoft-365-docs-pr.it-IT/blob/d3a567aa6c70fd7ef8b400bf24b52632794041e3/microsoft-365/security/defender-endpoint/switch-to-microsoft-defender-setup.md?plain=1#L101
+                                        call:
+                                            function: DisableFeature
+                                            parameters:
+                                                featureName: Windows-Defender-Features # TODO: Access is denied.
+                                    -
+                                        name: Disable "Application Guard" feature
+                                        docs: |-
+                                            FeatureName      : Windows-Defender-ApplicationGuard
+                                            DisplayName      : Microsoft Defender Application Guard
+                                            Description      : Offers a secure container for internet browsing
+                                            RestartRequired  : Possible
+                                            State            : Disabled
+                                            CustomProperties :
+                                        call:
+                                            function: DisableFeature
+                                            parameters:
+                                                featureName: Windows-Defender-ApplicationGuard # Get-WindowsOptionalFeature -Online -FeatureName "Windows-Defender-ApplicationGuard"
+                                                # TODO: Should disable on revert too
+                                    -
+                                        name: Disable "Windows-Defender-Default-Definitions" feature
+                                        docs: |-
+                                            FeatureName      : Windows-Defender-Default-Definitions
+                                            DisplayName      :
+                                            Description      :
+                                            RestartRequired  : Possible
+                                            State            : Enabled
+                                            CustomProperties :
+                                        call:
+                                            function: DisableFeature
+                                            parameters:
+                                                featureName: Windows-Defender-Default-Definitions # Get-WindowsOptionalFeature -Online -FeatureName "Windows-Defender-Default-Definitions"
+                            -
+                                name: Disable Antimalware Scan Interface (AMSI)
+                                docs: https://learn.microsoft.com/en-us/windows/win32/amsi/antimalware-scan-interface-portal
+                                code: Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\AMSI\Providers\{2781761E-28E0-4109-99FE-B9D127C57AFE}" -Recurse
+                                revertCode: New-Item -Path "HKLM:\SOFTWARE\Microsoft\AMSI\Providers" -Name "{2781761E-28E0-4109-99FE-B9D127C57AFE}" -ErrorAction Ignore | Out-Null
+                            -
+                                name: DisallowExploitProtectionOverride # TODO: Fix
+                                code: HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection!DisallowExploitProtectionOverride
                     -
                         category: Disable SmartScreen
-                        docs:
-                            - https://en.wikipedia.org/wiki/Microsoft_SmartScreen
-                            - https://web.archive.org/web/20240314131452/https://learn.microsoft.com/en-us/windows/security/operating-system-security/virus-and-threat-protection/microsoft-defender-smartscreen/
+                        docs: |-
+                            Microsoft Defender SmartScreen helps safeguard users from phishing, malware websites, and potentially harmful downloads [2].
+                            It assesses webpage safety by analyzing behavior and comparing sites to a list of known malicious ones [2].
+                            For downloads, it cross-references with lists of known malicious software and frequently downloaded files, issuing warnings for potential threats.
+
+                            SmartScreen is also known as "Windows SmartScreen" [1], "Windows Defender SmartScreen", "Microsoft Defender SmartScreen" [2]
+                            and "SmartScreen Filter" [1].
+                            [1]: https://en.wikipedia.org/wiki/Microsoft_SmartScreen
+                            [2]: https://docs.microsoft.com/en-us/windows/security/threat-protection/microsoft-defender-smartscreen/microsoft-defender-smartscreen-overview
                         children:
                             -
+                                name: Kill SmartScreen process
+                                recommend: strict
+                                docs: |-
+                                    This script stops execution of `smartscreen.exe` which is the main process for SmartScreen [1] [2] [3].
+
+                                    `smartscreen.exe` is located in the `%WinDir%\System32` [1] [2] folder.
+
+                                    [1]: https://www.howtogeek.com/320711/what-is-smartscreen-and-why-is-it-running-on-my-pc/
+                                    [2]: https://www.file.net/process/smartscreen.exe.html
+                                    [3]: https://strontic.github.io/xcyclopedia/library/smartscreen.exe-B75FA41284409A6134BF824BEAE59B4E.html
+                                call:
+                                    function: KillProcess
+                                    parameters:
+                                        processName: smartscreen.exe
+                                        processStartPath: '%WinDir%\System32\smartscreen.exe'
+                            -
                                 category: Disable SmartScreen for apps and files
+                                docs: https://docs.microsoft.com/en-us/windows/security/threat-protection/microsoft-defender-smartscreen/microsoft-defender-smartscreen-overview
                                 children:
                                     -
                                         name: Disable SmartScreen for apps and files
@@ -15397,18 +15731,80 @@ actions:
                                                 valueName: PreventOverride
                                                 dwordData: "0"
                                     -
-                                        name: Disable SmartScreen in Internet Explorer
-                                        docs: https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.InternetExplorer::IZ_Policy_Phishing_9
+                                        name: Disable outdated SmartScreen in Internet Explorer
+                                        docs: |-
+                                            This script disables SmartScreen in outdated Internet Explorer.
+
+                                            SmartScreen is also known as *Phishing Filter* [1].
+
+                                            Internet Explorer 11 is retired and out-of-support [1].
+                                            Internet Explorer 11 desktop application has been permanently disabled through
+                                            a Microsoft Edge update on certain versions of Windows [1].
+                                            This script only applies to old versions of Windows with Internet Explorer.
+
+                                            This script configures `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\<ZoneNumber>\2301` registry key [1].
+
+                                            Different zones have different meaning [1]:
+
+                                            | Security Zone | Meaning |
+                                            | ------------- | ------- |
+                                            | `0` | My Computer |
+                                            | `1` | Local Intranet Zone |
+                                            | `2` | Trusted sites Zone |
+                                            | `3` | Internet Zone |
+                                            | `4` | Restricted Sites Zone |
+
+                                            This script configures `2301` setting which configures whether to use Phishing Filter [1] to disable
+                                            SmartScreen.
+
+                                            [1]: https://web.archive.org/web/20240709095151/https://learn.microsoft.com/en-us/troubleshoot/developer/browsers/security-privacy/ie-security-zones-registry-entries "IE security zones registry entries for advanced users - Browsers | Microsoft Learn | learn.microsoft.com"
+
+                                            - https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.InternetExplorer::IZ_Policy_Phishing_9
+                                            - https://www.stigviewer.com/stig/microsoft_internet_explorer_11/2018-06-08/finding/V-64719
                                         call:
-                                            function: SetRegistryValue
-                                            parameters:
-                                                keyPath: HKLM\Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\0
-                                                valueName: '2301'
-                                                dataType: REG_DWORD
-                                                data: '1'
-                                                deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                                            -
+                                                function: SetRegistryValue
+                                                parameters:
+                                                    keyPath: HKLM\Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\0
+                                                    valueName: '2301'
+                                                    dataType: REG_DWORD
+                                                    data: '1'
+                                                    deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                                            -
+                                                function: SetRegistryValue
+                                                parameters:
+                                                    keyPath: HKLM\Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\1
+                                                    valueName: '2301'
+                                                    dataType: REG_DWORD
+                                                    data: '1'
+                                                    deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                                            -
+                                                function: SetRegistryValue
+                                                parameters:
+                                                    keyPath: HKLM\Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\2
+                                                    valueName: '2301'
+                                                    dataType: REG_DWORD
+                                                    data: '1'
+                                                    deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                                            -
+                                                function: SetRegistryValue
+                                                parameters:
+                                                    keyPath: HKLM\Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3
+                                                    valueName: '2301'
+                                                    dataType: REG_DWORD
+                                                    data: '1'
+                                                    deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
+                                            -
+                                                function: SetRegistryValue
+                                                parameters:
+                                                    keyPath: HKLM\Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\4
+                                                    valueName: '2301'
+                                                    dataType: REG_DWORD
+                                                    data: '1'
+                                                    deleteOnRevert: 'true' # Missing by default since Windows 10 Pro (≥ 22H2) and Windows 11 Pro (≥ 23H2)
                             -
                                 category: Disable SmartScreen for Windows Store apps
+                                docs: https://docs.microsoft.com/en-us/windows/security/threat-protection/microsoft-defender-smartscreen/microsoft-defender-smartscreen-overview
                                 children:
                                     -
                                         name: Disable SmartScreen's "App Install Control" feature
@@ -15646,7 +16042,7 @@ actions:
                                     function: DisableService
                                     parameters:
                                         serviceName: wuauserv # Check: (Get-Service -Name 'wuauserv').StartType
-                                        defaultStartupMode: Manual # Allowed values: Automatic | Manual
+                                        defaultStartupMode: Manual # Allowed values: Automatic | Manual | Boot
                             -
                                 name: Disable "Update Orchestrator Service" (`UsoSvc`)
                                 docs: |-
@@ -15681,7 +16077,7 @@ actions:
                                     function: DisableService
                                     parameters:
                                         serviceName: UsoSvc # Check: (Get-Service -Name 'UsoSvc').StartType
-                                        defaultStartupMode: Automatic # Allowed values: Automatic | Manual
+                                        defaultStartupMode: Automatic # Allowed values: Automatic | Manual | Boot
                             -
                                 name: Disable "Windows Update Medic Service" (`WaaSMedicSvc`)
                                 docs: |-
